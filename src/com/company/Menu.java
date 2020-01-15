@@ -8,7 +8,8 @@ public class Menu {
         showMainMenu();
     }
 
-    Library library = new Library();
+    BookList library = new BookList();
+    LibraryMember kalle = new LibraryMember("Kalle","Kalle123","Abc123");
 
 
     private void showMainMenu(){
@@ -29,7 +30,7 @@ public class Menu {
                 switch (userChoice){
 
                     case "1":
-                            showMemberMenu();
+                        showMemberMenu();
                         break;
                     case "2":
                         showAdminMenu();
@@ -72,13 +73,14 @@ public class Menu {
 
                     break;
                 case "3":
-                        library.showAllBooks();
+                    library.showAllBooks();
                     break;
                 case "4":
 
                     break;
                 case "5":
-
+                    System.out.println("Which book do you want to borrow");
+                    library.showAllBooks();
                     break;
                 case "6":
 

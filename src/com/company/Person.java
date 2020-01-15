@@ -10,4 +10,12 @@ public abstract class Person {
         this.userName = userName;
         this.password = password;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }
