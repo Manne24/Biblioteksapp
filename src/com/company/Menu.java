@@ -8,6 +8,8 @@ public class Menu {
         showMainMenu();
     }
 
+    Library library = new Library();
+
 
     private void showMainMenu(){
         boolean continueToRun = true;
@@ -70,7 +72,7 @@ public class Menu {
 
                     break;
                 case "3":
-
+                        library.showAllBooks();
                     break;
                 case "4":
 
