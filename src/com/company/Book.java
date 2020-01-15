@@ -4,13 +4,13 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    private Boolean availble;
+    private Boolean available;
 
     public Book(String title, String author, String description) {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.availble = false;
+        this.available = false;
     }
 
     public String getTitle() {
@@ -25,12 +25,12 @@ public class Book {
         return author;
     }
 
-    public Boolean getAvailble() {
-        return availble;
+    public Boolean getAvailable() {
+        return available;
     }
 
-    public void setAvailble(Boolean availble) {
-        this.availble = availble;
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     public String getInfo(){
