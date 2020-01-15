@@ -49,9 +49,9 @@ public class Menu {
 
         boolean continueToRun = true;
 
-        while(continueToRun) {
             System.out.println("Hello, ---->Member<----");
             System.out.println("---------------------------");
+        while(continueToRun) {
             System.out.println("Press [1] Return Loaned Book");
             System.out.println("Press [2] Show All Available Books");
             System.out.println("Press [3] Show All Books");
