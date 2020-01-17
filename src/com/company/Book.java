@@ -10,7 +10,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.available = false;
+        this.available = true;
     }
 
     public String getTitle() {
@@ -33,7 +33,7 @@ public class Book {
         this.available = available;
     }
 
-    public String getInfo(){
-        return "Author: " + getAuthor() + " \n" + "Title: " +  getTitle();
+    public String getInfo() {
+        return "Book Author: " + getAuthor() + " \n" + "Book Title: " + getTitle();
     }
 }
