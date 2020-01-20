@@ -2,11 +2,13 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BookList {
 
     // Lista på böcker i biblioteket
     private List<Book> books = new ArrayList<>();
+    private Scanner input = new Scanner(System.in);
 
     BookList() {
         createBookList();
@@ -30,6 +32,7 @@ public class BookList {
             System.out.println("[" + (i + 1) + "]. " + books.get(i).getInfo());
         }
     }
+
 
     public void addBook(Book book) {
         books.add(book);

@@ -5,14 +5,16 @@ import java.util.Scanner;
 public class Menu {
 
     Menu() {
-        showMainMenu();
+        logInMenu();
     }
 
-    BookList library = new BookList();
-    LibraryMember kalle = new LibraryMember("Kalle", "Kalle123", "Abc123");
+    private BookList library = new BookList();
+    private LibraryMember kalle = new LibraryMember("Kalle", "Kalle123", "Abc123");
+    private Scanner input = new Scanner(System.in);
 
 
-    private void showMainMenu() {
+
+    public void logInMenu() {
         boolean continueToRun = true;
 
         while (continueToRun) {
@@ -23,7 +25,7 @@ public class Menu {
             System.out.println("Press [2] Login Library Libririan");
             System.out.println("Press [0] to <EXIT>");
 
-            Scanner input = new Scanner(System.in);
+
             String userChoice = input.nextLine();
 
 
@@ -39,14 +41,15 @@ public class Menu {
                     continueToRun = false;
                     break;
                 default:
-                    System.out.println("Please enter a Number Between 1-3");
+                    System.out.println("Please enter a Number Between 1-3 [Enter]");
+                    input.nextLine();
                     break;
             }
         }
     }
 
 
-    private void showMemberMenu() {
+    public void showMemberMenu() {
 
         boolean continueToRun = true;
 
@@ -61,7 +64,7 @@ public class Menu {
             System.out.println("Press [6] My Loaned Books");
             System.out.println("Press [0] <-- Go Back");
 
-            Scanner input = new Scanner(System.in);
+
             String userChoice = input.nextLine();
 
 
@@ -74,6 +77,7 @@ public class Menu {
                     break;
                 case "3":
                     library.showAllBooks();
+                    input.nextLine();
                     break;
                 case "4":
 
@@ -81,7 +85,6 @@ public class Menu {
                 case "5":
                     System.out.println("Which book do you want to borrow");
                     library.showAllBooks();
-                    kalle.loanBook();
                     break;
                 case "6":
 
@@ -91,12 +94,13 @@ public class Menu {
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
+                    input.nextLine();
                     break;
             }
         }
     }
 
-    private void showAdminMenu() {
+    public void showAdminMenu() {
 
         boolean continueToRun = true;
 
@@ -111,7 +115,7 @@ public class Menu {
             System.out.println("Press [6] Show Members Borrowed Book");
             System.out.println("Press [0] <-- Go Back");
 
-            Scanner input = new Scanner(System.in);
+
             String userChoice = input.nextLine();
 
 
@@ -139,6 +143,7 @@ public class Menu {
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
+                    input.nextLine();
                     break;
             }
         }
