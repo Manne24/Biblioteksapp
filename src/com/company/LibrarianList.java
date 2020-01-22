@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class LibrarianList {
 
-    // Lista på Användare i biblioteket
+    // Lista på Bibliotikare i biblioteket
     private List<Librarian> librarians  = new ArrayList<>();
     private Scanner input = new Scanner(System.in);
 
@@ -16,11 +16,5 @@ public class LibrarianList {
 
     private void addLibrarian() {
         librarians.add(new Librarian("admin","admin","admin"));
-    }
-
-    public void showLibrarian(){
-        for (Librarian librarian : librarians){
-            System.out.println(librarian);
-        }
     }
 }

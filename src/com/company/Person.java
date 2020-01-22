@@ -18,4 +18,9 @@ public abstract class Person {
     public String getUserName() {
         return userName;
     }
+
+    @Override
+    public String toString() {
+        return String.format("LibraryMember: %s\nUserName: %s",getName() , getUserName());
+    }
 }
