@@ -13,8 +13,6 @@ public class LibraryMember extends Person {
 
 
     public void loanBook(Book book) {
-
-
         loanedBooks.addBook(book);
     }
 
