@@ -9,7 +9,6 @@ public class Menu {
     }
 
     private BookList library = new BookList();
-    private LibraryMember kalle = new LibraryMember("Kalle", "Kalle123", "Abc123");
     private Scanner input = new Scanner(System.in);
 
 
@@ -23,6 +22,7 @@ public class Menu {
             System.out.println("Please Choose a Option");
             System.out.println("Press [1] Login Library Member");
             System.out.println("Press [2] Login Library Libririan");
+            System.out.println("Press [3] Register New Member");
             System.out.println("Press [0] to <EXIT>");
 
 
@@ -36,6 +36,10 @@ public class Menu {
                     break;
                 case "2":
                     showAdminMenu();
+                    break;
+                case "3":
+                    System.out.println("Please Enter The Name of the Author: ");
+                    library.searchByAuthor();
                     break;
                 case "0":
                     continueToRun = false;
