@@ -16,7 +16,13 @@ public class LibraryMember extends Person {
         loanedBooks.addBook(book);
     }
 
+    public void returnBook(Book book){
+        loanedBooks.removeBook(book);
+    }
 
+    public void showBorrowedBook(){
+        loanedBooks.showAllBooks();
+    }
 
 
 }

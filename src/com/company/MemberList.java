@@ -24,4 +24,28 @@ public class MemberList {
             System.out.println(member);
         }
     }
+
+    public void searchForMember() {
+        System.out.println("Please Enter The Name of the LibraryMember: ");
+        String userInput = input.nextLine();
+        ArrayList<String> result = new ArrayList<>();
+        for (LibraryMember member : members) {
+            if (member.getName().toLowerCase().contains(userInput.toLowerCase()) || member.getUserName().toLowerCase().contains(userInput.toLowerCase()) ){
+                result.add(member.getName());
+            }
+        }
+        if (result.isEmpty()){
+            System.out.println("The Member was not found");
+        }else {
+            System.out.println("Member was found: ");
+            for (String member: result){
+                System.out.println(member);
+            }
+            input.nextLine();
+        }
+    }
+
+    public void showBorrowedBooksForMember(){
+
+    }
 }
