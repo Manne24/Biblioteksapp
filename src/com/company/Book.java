@@ -17,8 +17,8 @@ public class Book {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public void getDescription() {
+        System.out.println(description);
     }
 
     public String getAuthor() {

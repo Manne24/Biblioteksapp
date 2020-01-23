@@ -25,6 +25,10 @@ public class MemberList {
         }
     }
 
+    public List<LibraryMember> getMembers() {
+        return members;
+    }
+
     public void searchForMember() {
         System.out.println("Please Enter The Name of the LibraryMember: ");
         String userInput = input.nextLine();
