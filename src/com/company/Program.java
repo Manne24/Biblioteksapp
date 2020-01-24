@@ -2,20 +2,24 @@ package com.company;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Program implements Serializable {
 
     private Scanner input = new Scanner(System.in);
     private BookList libraryBooks = new BookList();
-    private MemberList members = new MemberList();
+    private libraryMemberList members = new libraryMemberList();
     private LibrarianList librarians = new LibrarianList();
     private LibraryMember currentUser;
     private Librarian currentAdmin;
 
     Program() {
 
+        libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
+        libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
+        libraryBooks.addBook(new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "After murdering Harry's parents, James and Lily Potter, evil Lord Voldemort puts a killing curse on Harry, then just a baby. The curse inexplicably reverses, defeating Voldemort and searing a lightning-bolt scar in the middle of the infant's forehead.", true));
+
+/*
         if (new File("library_Books.ser").isFile()) {
             System.out.println("Load library");
             libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
@@ -25,7 +29,7 @@ public class Program implements Serializable {
         }
         if (new File("members.ser").isFile()) {
             System.out.println("Load Members");
-            members = (MemberList) FileUtility.loadObject("members.ser");
+            members = (libraryMemberList) FileUtility.loadObject("members.ser");
         }else{
             System.out.println("Creating users");
             createMembers();
@@ -34,6 +38,8 @@ public class Program implements Serializable {
             System.out.println("Load librarians");
             librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
         }
+
+ */
 
         logInMenu();
     }
@@ -273,7 +279,7 @@ public class Program implements Serializable {
             System.out.println("Press [3] Remove Book");
             System.out.println("Press [4] Show Library Members");
             System.out.println("Press [5] Search For Member");
-            System.out.println("Press [6] Show Members Borrowed Book");
+            System.out.println("Press [6] Show Members With Borrowed Book");
             System.out.println("Press [0] Save and Exit");
 
 
