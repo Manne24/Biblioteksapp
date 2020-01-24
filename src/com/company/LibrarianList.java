@@ -1,10 +1,11 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class LibrarianList {
+public class LibrarianList implements Serializable {
 
     // Lista på Bibliotikare i biblioteket
     private List<Librarian> librarians  = new ArrayList<>();

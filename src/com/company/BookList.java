@@ -1,14 +1,15 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BookList {
+public class BookList implements Serializable {
 
     // Lista på böcker i biblioteket
     private List<Book> books = new ArrayList<>();
-    private Scanner input = new Scanner(System.in);
+    private transient Scanner input = new Scanner(System.in);
 
 
     public List<Book> getBooks() {

@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Program {
@@ -12,11 +13,20 @@ public class Program {
     private Librarian currentAdmin;
 
     Program() {
-       library.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power",true));
 
-        library.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.",true));
+        if (new File( "library.ser").isFile()){
+            System.out.println("Load library");
+            library = (BookList) FileUtility.loadObject("library.ser");
+        }
+        if (new File( "members.ser").isFile()){
+            System.out.println("Load Members");
+            members = (MemberList) FileUtility.loadObject("members.ser");
+        }
+        if (new File( "librarians.ser").isFile()){
+            System.out.println("Load librarians");
+            librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
+        }
 
-        library.addBook(new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "After murdering Harry's parents, James and Lily Potter, evil Lord Voldemort puts a killing curse on Harry, then just a baby. The curse inexplicably reverses, defeating Voldemort and searing a lightning-bolt scar in the middle of the infant's forehead.",true));
         logInMenu();
     }
 
@@ -99,6 +109,7 @@ public class Program {
         }else {
             library.getBooks().get(userInput - 1).setAvailable(false);
             currentUser.loanBook(library.getBooks().get(userInput - 1));
+            FileUtility.saveObject("library.ser", library);
             System.out.println("You have loaned " + library.getBooks().get(userInput - 1).getInfo() );
 
         }
@@ -117,6 +128,7 @@ public class Program {
             int index = library.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
             library.getBooks().get(index).setAvailable(true);
             currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+            FileUtility.saveObject("library.ser",library);
             System.out.println("Returned " + library.getBooks().get(index).getInfo() );
         }
     }
@@ -217,8 +229,27 @@ public class Program {
         System.out.println("Please Enter a description about the book: ");
         description = input.nextLine();
         library.addBook(new Book(title,author,description,true));
+        FileUtility.saveObject("library.ser",library);
         System.out.println("You have added " + library.getBooks().get(library.getBooks().size() - 1).getInfo());
 
+    }
+
+    private void removeBookFromLibrary(){
+        for (int i = 0; i < library.getBooks().size(); i++) {
+            System.out.println("[" + (i + 1) + "]. " + library.getBooks().get(i).getInfo());
+        }
+        System.out.println("Which Book do you want to DELETE ?");
+        int userInput = userInput();
+        if (userInput < 1 || userInput > library.getBooks().size()) {
+            System.out.println("Please Choose a Valid number");
+            input.nextLine();
+        }else {
+            Book book = library.getBooks().get(userInput - 1);
+            library.removeBook(book);
+            FileUtility.saveObject("library.ser",library);
+            System.out.println("You have deleted " + book.getInfo());
+            input.nextLine();
+        }
     }
 
     private void showAdminMenu() {
@@ -249,7 +280,7 @@ public class Program {
                     addBookToLibrary();
                     break;
                 case "3":
-                    library.removeBook();
+                    removeBookFromLibrary();
                     break;
                 case "4":
                     members.showMembers();

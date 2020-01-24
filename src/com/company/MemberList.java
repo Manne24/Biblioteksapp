@@ -1,14 +1,15 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberList {
+public class MemberList implements Serializable {
 
     // Lista på Användare i biblioteket
     private List<LibraryMember> members  = new ArrayList<>();
-    private Scanner input = new Scanner(System.in);
+    private transient Scanner input = new Scanner(System.in);
 
     MemberList(){
         addMembers();
