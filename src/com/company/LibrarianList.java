@@ -1,14 +1,14 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class LibrarianList {
+
+public class LibrarianList implements Serializable {
 
     // Lista på Bibliotikare i biblioteket
     private List<Librarian> librarians  = new ArrayList<>();
-    private Scanner input = new Scanner(System.in);
 
     LibrarianList(){
         addLibrarian();
@@ -17,4 +17,9 @@ public class LibrarianList {
     private void addLibrarian() {
         librarians.add(new Librarian("admin","admin","admin"));
     }
+
+    public List<Librarian> getLibrarians() {
+        return librarians;
+    }
 }
+

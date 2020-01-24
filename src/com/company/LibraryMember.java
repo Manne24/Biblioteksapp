@@ -11,6 +11,9 @@ public class LibraryMember extends Person {
         super(name, userName, password);
     }
 
+    public BookList getLoanedBooks() {
+        return loanedBooks;
+    }
 
     public void loanBook(Book book) {
         loanedBooks.addBook(book);

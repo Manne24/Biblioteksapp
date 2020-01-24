@@ -1,6 +1,8 @@
 package com.company;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
     private String name;
     private String userName;
     private String password;
@@ -17,6 +19,10 @@ public abstract class Person {
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
