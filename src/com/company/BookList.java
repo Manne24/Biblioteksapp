@@ -20,6 +20,8 @@ public class BookList implements Serializable {
     public void showAllBooks() {
         for (Book book:books){
             System.out.println(book.getInfo());
+        }if (books.isEmpty()){
+            System.out.println("You have no books ");
         }
     }
 
