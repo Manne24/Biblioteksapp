@@ -38,27 +38,53 @@ public class BookList implements Serializable {
         books.remove(book);
     }
 
-    public void searchByAuthor() {
-            System.out.println("Please Enter The Name of the Author: ");
-            String userInput = input.nextLine();
-            ArrayList<String> result = new ArrayList<>();
-            for (Book book : books) {
-                if (book.getAuthor().toLowerCase().contains(userInput.toLowerCase()) && book.getAvailable()){
-                    result.add(book.getAuthor());
-                }
+    public void searchByBookOrAuthor(){
+        boolean run = true;
+        while(run){
+            System.out.println("[1] To Search for BookTitle");
+            System.out.println("[2] To Search for Author");
+            System.out.println("[0] To Go Back ");
+
+            String userChoice = input.nextLine();
+
+            switch (userChoice) {
+                case "1":
+                    searchByTitle();
+                    break;
+                case "2":
+                    searchByAuthor();
+                    break;
+                case "0":
+                    run = false;
+                default:
+                    System.out.println("Please Enter a valid number ");
             }
-            if (result.isEmpty()){
-                System.out.println("The Author was not found");
-            }else {
-                System.out.println("The Author was found: ");
-                for (String author: result){
-                    System.out.println(author);
-                }
-                input.nextLine();
-            }
+
+        }
+
     }
 
-    public void searchByTitle() {
+    private void searchByAuthor() {
+        System.out.println("Please Enter The Name of the Author: ");
+        String userInput = input.nextLine();
+        ArrayList<String> result = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getAuthor().toLowerCase().contains(userInput.toLowerCase()) && book.getAvailable()){
+                result.add(book.getAuthor());
+            }
+        }
+        if (result.isEmpty()){
+            System.out.println("The Author was not found");
+        }else {
+            System.out.println("The Author was found: ");
+            for (String author: result){
+                System.out.println(author);
+            }
+            input.nextLine();
+        }
+    }
+
+    private void searchByTitle() {
         System.out.println("Please Enter The Name of the Book: ");
         String userInput = input.nextLine();
         ArrayList<String> result = new ArrayList<>();

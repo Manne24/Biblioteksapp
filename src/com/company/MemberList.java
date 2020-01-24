@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MemberList implements Serializable {
-
     // Lista på Användare i biblioteket
     private List<LibraryMember> members  = new ArrayList<>();
     private transient Scanner input = new Scanner(System.in);
@@ -32,8 +31,8 @@ public class MemberList implements Serializable {
 
     public void searchForMember() {
         System.out.println("Please Enter The Name of the LibraryMember: ");
-        String userInput = input.nextLine();
         ArrayList<String> result = new ArrayList<>();
+        String userInput = input.nextLine();
         for (LibraryMember member : members) {
             if (member.getName().toLowerCase().contains(userInput.toLowerCase()) || member.getUserName().toLowerCase().contains(userInput.toLowerCase()) ){
                 result.add(member.getName());
@@ -41,12 +40,12 @@ public class MemberList implements Serializable {
         }
         if (result.isEmpty()){
             System.out.println("The Member was not found");
+            input.nextLine();
         }else {
             System.out.println("Member was found: ");
             for (String member: result){
                 System.out.println(member);
             }
-            input.nextLine();
         }
     }
 

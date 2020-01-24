@@ -1,12 +1,14 @@
 package com.company;
 
 import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Program {
+public class Program implements Serializable {
 
     private Scanner input = new Scanner(System.in);
-    private BookList library = new BookList();
+    private BookList libraryBooks = new BookList();
     private MemberList members = new MemberList();
     private LibrarianList librarians = new LibrarianList();
     private LibraryMember currentUser;
@@ -14,15 +16,21 @@ public class Program {
 
     Program() {
 
-        if (new File( "library.ser").isFile()){
+        if (new File("library_Books.ser").isFile()) {
             System.out.println("Load library");
-            library = (BookList) FileUtility.loadObject("library.ser");
+            libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
+        }else{
+            System.out.println("Adding Books To Library");
+            createBooks();
         }
-        if (new File( "members.ser").isFile()){
+        if (new File("members.ser").isFile()) {
             System.out.println("Load Members");
             members = (MemberList) FileUtility.loadObject("members.ser");
+        }else{
+            System.out.println("Creating users");
+            createMembers();
         }
-        if (new File( "librarians.ser").isFile()){
+        if (new File("librarians.ser").isFile()) {
             System.out.println("Load librarians");
             librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
         }
@@ -30,17 +38,18 @@ public class Program {
         logInMenu();
     }
 
-    private int userInput(){
+    private int userInput() {
         int userInt;
-        while (true){
-            try{
+        while (true) {
+            try {
                 System.out.println("Please Choose: [Number] ");
                 userInt = Integer.parseInt(input.nextLine());
                 break;
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Not a Valid Input");
             }
-        }return userInt;
+        }
+        return userInt;
     }
 
 
@@ -72,6 +81,7 @@ public class Program {
                     break;
                 case "0":
                     continueToRun = false;
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-3 [Enter]");
@@ -87,7 +97,7 @@ public class Program {
             String username = input.nextLine();
             for (LibraryMember member : members.getMembers()) {
                 if (username.equals(member.getUserName())) {
-                    System.out.println("PLease Enter your Password");
+                    System.out.println("Please Enter your Password: ");
                     String password = input.nextLine();
                     if (password.equals(member.getPassword())) {
                         currentUser = member;
@@ -99,49 +109,48 @@ public class Program {
         }
     }
 
-    private void loanedBook(){
-        for (int i = 0; i < library.getBooks().size(); i++) {
-            System.out.println("[" + (i + 1) + "]. " + library.getBooks().get(i).getInfo());
+    private void loanedBook() {
+        for (int i = 0; i < libraryBooks.getBooks().size(); i++) {
+            if (libraryBooks.getBooks().get(i).getAvailable()) {
+                System.out.println("[" + (i + 1) + "]. " + libraryBooks.getBooks().get(i).getInfo());
+            }
         }
         int userInput = userInput();
-        if (userInput < 1 || userInput > library.getBooks().size()) {
+        if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
             System.out.println("Please Choose a Valid number");
-        }else {
-            library.getBooks().get(userInput - 1).setAvailable(false);
-            currentUser.loanBook(library.getBooks().get(userInput - 1));
-            FileUtility.saveObject("library.ser", library);
-            System.out.println("You have loaned " + library.getBooks().get(userInput - 1).getInfo() );
-
+        } else {
+            libraryBooks.getBooks().get(userInput - 1).setAvailable(false);
+            currentUser.loanBook(libraryBooks.getBooks().get(userInput - 1));
+            System.out.println("You have loaned " + libraryBooks.getBooks().get(userInput - 1).getInfo());
         }
     }
 
-    private void returnBook(){
+    private void returnBook() {
         for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
             System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
         }
         int userInput = userInput();
         if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
             System.out.println("Please Choose a Valid number");
-        }else {
+        } else {
             // Vi använder userinput som index för att sedan hämta boken och för att jämföra den.
             // vi får en ny index som stämmer överens med Library
-            int index = library.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-            library.getBooks().get(index).setAvailable(true);
+            int index = libraryBooks.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+            libraryBooks.getBooks().get(index).setAvailable(true);
             currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-            FileUtility.saveObject("library.ser",library);
-            System.out.println("Returned " + library.getBooks().get(index).getInfo() );
+            System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
         }
     }
 
-    private void showDescriptionOfBook(){
-        for (int i = 0; i <library.getBooks().size(); i++) {
-            System.out.println("[" + (i + 1) + "]. " + library.getBooks().get(i).getInfo());
+    private void showDescriptionOfBook() {
+        for (int i = 0; i < libraryBooks.getBooks().size(); i++) {
+            System.out.println("[" + (i + 1) + "]. " + libraryBooks.getBooks().get(i).getInfo());
         }
         int userInput = userInput();
-        if (userInput < 1 || userInput > library.getBooks().size()) {
+        if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
             System.out.println("Please Choose a Valid number");
-        }else{
-                library.showDescriptionOfBook(library.getBooks().get(userInput - 1));
+        } else {
+            libraryBooks.showDescriptionOfBook(libraryBooks.getBooks().get(userInput - 1));
         }
     }
 
@@ -156,10 +165,10 @@ public class Program {
             System.out.println("Press [1] Return Loaned Book");
             System.out.println("Press [2] Show All Available Books");
             System.out.println("Press [3] Show All Books and Description");
-            System.out.println("Press [4] Search for Book");
+            System.out.println("Press [4] Search for Book by Title or Author");
             System.out.println("Press [5] Barrow Book");
             System.out.println("Press [6] My Loaned Books");
-            System.out.println("Press [0] <-- Go Back");
+            System.out.println("Press [0] Save and Exit");
 
 
             String userChoice = input.nextLine();
@@ -171,7 +180,7 @@ public class Program {
                     input.nextLine();
                     break;
                 case "2":
-                    library.showAvailableBooks();
+                    libraryBooks.showAvailableBooks();
                     input.nextLine();
                     break;
                 case "3":
@@ -179,7 +188,7 @@ public class Program {
                     input.nextLine();
                     break;
                 case "4":
-                    library.searchByTitle();
+                    libraryBooks.searchByBookOrAuthor();
                     break;
                 case "5":
                     loanedBook();
@@ -191,6 +200,8 @@ public class Program {
                     break;
                 case "0":
                     continueToRun = false;
+                    exitAndSave();
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
@@ -218,7 +229,7 @@ public class Program {
         }
     }
 
-    private void addBookToLibrary(){
+    private void addBookToLibrary() {
         String title;
         String author;
         String description;
@@ -228,25 +239,23 @@ public class Program {
         author = input.nextLine();
         System.out.println("Please Enter a description about the book: ");
         description = input.nextLine();
-        library.addBook(new Book(title,author,description,true));
-        FileUtility.saveObject("library.ser",library);
-        System.out.println("You have added " + library.getBooks().get(library.getBooks().size() - 1).getInfo());
+        libraryBooks.addBook(new Book(title, author, description, true));
+        System.out.println("You have added " + libraryBooks.getBooks().get(libraryBooks.getBooks().size() - 1).getInfo());
 
     }
 
-    private void removeBookFromLibrary(){
-        for (int i = 0; i < library.getBooks().size(); i++) {
-            System.out.println("[" + (i + 1) + "]. " + library.getBooks().get(i).getInfo());
+    private void removeBookFromLibrary() {
+        for (int i = 0; i < libraryBooks.getBooks().size(); i++) {
+            System.out.println("[" + (i + 1) + "]. " + libraryBooks.getBooks().get(i).getInfo());
         }
         System.out.println("Which Book do you want to DELETE ?");
         int userInput = userInput();
-        if (userInput < 1 || userInput > library.getBooks().size()) {
+        if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
             System.out.println("Please Choose a Valid number");
             input.nextLine();
-        }else {
-            Book book = library.getBooks().get(userInput - 1);
-            library.removeBook(book);
-            FileUtility.saveObject("library.ser",library);
+        } else {
+            Book book = libraryBooks.getBooks().get(userInput - 1);
+            libraryBooks.removeBook(book);
             System.out.println("You have deleted " + book.getInfo());
             input.nextLine();
         }
@@ -265,7 +274,7 @@ public class Program {
             System.out.println("Press [4] Show Library Members");
             System.out.println("Press [5] Search For Member");
             System.out.println("Press [6] Show Members Borrowed Book");
-            System.out.println("Press [0] <-- Go Back");
+            System.out.println("Press [0] Save and Exit");
 
 
             String userChoice = input.nextLine();
@@ -273,7 +282,7 @@ public class Program {
 
             switch (userChoice) {
                 case "1":
-                    library.showBorrowedBooks();
+                    libraryBooks.showBorrowedBooks();
                     input.nextLine();
                     break;
                 case "2":
@@ -294,6 +303,8 @@ public class Program {
                     break;
                 case "0":
                     continueToRun = false;
+                    exitAndSave();
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
@@ -301,5 +312,26 @@ public class Program {
                     break;
             }
         }
+    }
+
+    private void createBooks(){
+        libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
+        libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
+        libraryBooks.addBook(new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "After murdering Harry's parents, James and Lily Potter, evil Lord Voldemort puts a killing curse on Harry, then just a baby. The curse inexplicably reverses, defeating Voldemort and searing a lightning-bolt scar in the middle of the infant's forehead.", true));
+
+        FileUtility.saveObject("library_Books.ser", libraryBooks);
+    }
+
+    private void createMembers(){
+        members.getMembers().add(new LibraryMember("Kalle", "Kalle123", "Abc123"));
+        members.getMembers().add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
+
+        FileUtility.saveObject("members.ser", members);
+    }
+
+    private void exitAndSave() {
+        FileUtility.saveObject("library_Books.ser", libraryBooks);
+        FileUtility.saveObject("members.ser", members);
+        FileUtility.saveObject("librarians.ser", librarians);
     }
 }

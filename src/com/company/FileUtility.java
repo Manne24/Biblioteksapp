@@ -45,21 +45,4 @@ public class FileUtility {
         return null;
 
     }
-
-
-    public static void saveText(String filename, List<String> list, StandardOpenOption... option) {
-
-        Path path = Paths.get(filename);
-
-        try {
-
-            Files.write(path, list, option);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-    }
 }
