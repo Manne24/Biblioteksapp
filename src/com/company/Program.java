@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Program implements Serializable {
 
-    private Scanner input = new Scanner(System.in);
+    private transient Scanner input = new Scanner(System.in);
     private BookList libraryBooks = new BookList();
     private libraryMemberList members = new libraryMemberList();
     private LibrarianList librarians = new LibrarianList();
@@ -15,26 +15,7 @@ public class Program implements Serializable {
 
     Program() {
 
-
-        if (new File("library_Books.ser").isFile()) {
-            System.out.println("Load library");
-            libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
-        } else {
-            System.out.println("Adding Books To Library");
-            createBooks();
-        }
-        if (new File("members.ser").isFile()) {
-            System.out.println("Load Members");
-            members = (libraryMemberList) FileUtility.loadObject("members.ser");
-        } else {
-            System.out.println("Creating users");
-            createMembers();
-        }
-        if (new File("librarians.ser").isFile()) {
-            System.out.println("Load librarians");
-            librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
-        }
-
+        loadProgram();
         logInMenu();
 
     }
@@ -130,21 +111,15 @@ public class Program implements Serializable {
         } else {
             for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
                 System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
-            }
-            int userInput = userInput();
-            if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
-                System.out.println("Going Back.....[Enter]");
-            } else {
-                // Vi använder userinput som index för att sedan hämta boken och för att jämföra den.
-                // vi får en ny index som stämmer överens med Library
-                try {
-                int index = libraryBooks.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-                libraryBooks.getBooks().get(index).setAvailable(true);
-                currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-                System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
-                }catch (Exception e){
-                    System.out.println(e.getMessage());
-                    System.out.println(e.getLocalizedMessage());
+                int userInput = userInput();
+                if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
+                    System.out.println("Going Back.....[Enter]");
+                } else {
+                    //söker index av användarens lånade böcker
+                    int index = currentUser.getLoanedBooks().getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                    libraryBooks.getBooks().get(index).setAvailable(true);
+                    currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                    System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
                 }
             }
         }
@@ -319,6 +294,28 @@ public class Program implements Serializable {
         }
     }
 
+
+    private void loadProgram(){
+        if (new File("library_Books.ser").isFile()) {
+            System.out.println("Load library");
+            libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
+        } else {
+            System.out.println("Adding Books To Library");
+            createBooks();
+        }
+        if (new File("members.ser").isFile()) {
+            System.out.println("Load Members");
+            members = (libraryMemberList) FileUtility.loadObject("members.ser");
+        } else {
+            System.out.println("Creating users");
+            createMembers();
+        }
+        if (new File("librarians.ser").isFile()) {
+            System.out.println("Load librarians");
+            librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
+        }
+
+    }
     private void createBooks() {
         libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
         libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
