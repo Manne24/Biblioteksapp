@@ -34,6 +34,7 @@ public class BookList implements Serializable {
     }
 
     public void removeBook(Book book) {
+        book.setAvailable(true);
         books.remove(book);
     }
 
