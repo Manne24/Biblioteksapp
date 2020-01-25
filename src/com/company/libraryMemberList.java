@@ -13,8 +13,9 @@ public class libraryMemberList implements Serializable {
     libraryMemberList(){
        // addMembers();
     }
-    public void addMembers() {
+    public void addMembers(LibraryMember member) {
      //   members.add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
+        members.add(member);
     }
 
 
@@ -49,9 +50,5 @@ public class libraryMemberList implements Serializable {
                 System.out.println(member);
             }
         }
-    }
-
-    public void showBorrowedBooksForMember(){
-
     }
 }
