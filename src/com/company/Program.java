@@ -34,6 +34,27 @@ public class Program implements Serializable {
         return userInt;
     }
 
+    private void registerNewMember() {
+        String name;
+        String userName;
+        String passWord;
+        System.out.println("Please Enter the your Name: ");
+        name = input.nextLine();
+        System.out.println("Please Enter A UserName: ");
+        userName = input.nextLine();
+        System.out.println("Please Enter a Password ");
+        passWord = input.nextLine();
+        members.addMembers(new LibraryMember(name,userName,passWord));
+        System.out.println("Welcome " + members.getMembers().get(members.getMembers().size() - 1).getName());
+        System.out.println("Your Username: " + members.getMembers().get(members.getMembers().size() - 1).getUserName());
+        System.out.println("Your Password: " + members.getMembers().get(members.getMembers().size() - 1).getPassword());
+        FileUtility.saveObject("members.ser", members);
+        System.out.println("Press Enter to Continue....");
+        input.nextLine();
+        logInMenu();
+    }
+
+
 
     private void logInMenu() {
 
@@ -59,6 +80,7 @@ public class Program implements Serializable {
                     adminLogIn();
                     break;
                 case "3":
+                    registerNewMember();
                     break;
                 case "0":
                     System.exit(0);
@@ -111,6 +133,7 @@ public class Program implements Serializable {
         } else {
             for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
                 System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
+            }
                 int userInput = userInput();
                 if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
                     System.out.println("Going Back.....[Enter]");
@@ -121,7 +144,6 @@ public class Program implements Serializable {
                     currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
                     System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
                 }
-            }
         }
     }
 
@@ -253,7 +275,6 @@ public class Program implements Serializable {
             System.out.println("Press [3] Remove Book");
             System.out.println("Press [4] Show Library Members");
             System.out.println("Press [5] Search For Member");
-            System.out.println("Press [6] Show Members With Borrowed Book");
             System.out.println("Press [0] Save and Exit");
 
 
@@ -278,9 +299,6 @@ public class Program implements Serializable {
                 case "5":
                     members.searchForMember();
                     input.nextLine();
-                    break;
-                case "6":
-
                     break;
                 case "0":
                     exitAndSave();
