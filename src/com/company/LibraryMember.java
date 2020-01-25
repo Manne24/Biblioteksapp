@@ -20,9 +20,9 @@ public class LibraryMember extends Person {
     }
 
     public void returnBook(Book book){
+       // book.setAvailable(true);
         loanedBooks.removeBook(book);
     }
-
     public void showBorrowedBook(){
         loanedBooks.showAllBooks();
     }

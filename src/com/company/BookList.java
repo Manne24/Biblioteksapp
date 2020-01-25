@@ -9,7 +9,6 @@ public class BookList implements Serializable {
 
     // Lista på böcker i biblioteket
     private List<Book> books = new ArrayList<>();
-    private transient Scanner input = new Scanner(System.in);
 
 
     public List<Book> getBooks() {
@@ -30,8 +29,6 @@ public class BookList implements Serializable {
         book.getDescription();
     }
 
-
-
     public void addBook(Book book) {
         books.add(book);
     }
@@ -41,6 +38,7 @@ public class BookList implements Serializable {
     }
 
     public void searchByBookOrAuthor(){
+        Scanner input = new Scanner(System.in);
         boolean run = true;
         while(run){
             System.out.println("[1] To Search for BookTitle");
@@ -67,6 +65,7 @@ public class BookList implements Serializable {
     }
 
     private void searchByAuthor() {
+        Scanner input = new Scanner(System.in);
         System.out.println("Please Enter The Name of the Author: ");
         String userInput = input.nextLine();
         ArrayList<String> result = new ArrayList<>();
@@ -87,6 +86,7 @@ public class BookList implements Serializable {
     }
 
     private void searchByTitle() {
+        Scanner input = new Scanner(System.in);
         System.out.println("Please Enter The Name of the Book: ");
         String userInput = input.nextLine();
         ArrayList<String> result = new ArrayList<>();

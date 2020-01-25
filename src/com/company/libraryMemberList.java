@@ -8,13 +8,13 @@ import java.util.Scanner;
 public class libraryMemberList implements Serializable {
     // Lista på Användare i biblioteket
     private List<LibraryMember> members  = new ArrayList<>();
-    private transient Scanner input = new Scanner(System.in);
+
 
     libraryMemberList(){
-        addMembers();
+       // addMembers();
     }
     public void addMembers() {
-        members.add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
+     //   members.add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
     }
 
 
@@ -30,6 +30,7 @@ public class libraryMemberList implements Serializable {
     }
 
     public void searchForMember() {
+        Scanner input = new Scanner(System.in);
         System.out.println("Please Enter The Name of the LibraryMember: ");
         ArrayList<String> result = new ArrayList<>();
         String userInput = input.nextLine();
@@ -38,6 +39,7 @@ public class libraryMemberList implements Serializable {
                 result.add(member.getName());
             }
         }
+
         if (result.isEmpty()){
             System.out.println("The Member was not found");
             input.nextLine();

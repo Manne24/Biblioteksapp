@@ -15,22 +15,18 @@ public class Program implements Serializable {
 
     Program() {
 
-        libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
-        libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
-        libraryBooks.addBook(new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "After murdering Harry's parents, James and Lily Potter, evil Lord Voldemort puts a killing curse on Harry, then just a baby. The curse inexplicably reverses, defeating Voldemort and searing a lightning-bolt scar in the middle of the infant's forehead.", true));
 
-/*
         if (new File("library_Books.ser").isFile()) {
             System.out.println("Load library");
             libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
-        }else{
+        } else {
             System.out.println("Adding Books To Library");
             createBooks();
         }
         if (new File("members.ser").isFile()) {
             System.out.println("Load Members");
             members = (libraryMemberList) FileUtility.loadObject("members.ser");
-        }else{
+        } else {
             System.out.println("Creating users");
             createMembers();
         }
@@ -39,16 +35,15 @@ public class Program implements Serializable {
             librarians = (LibrarianList) FileUtility.loadObject("librarians.ser");
         }
 
- */
-
         logInMenu();
+
     }
 
     private int userInput() {
         int userInt;
         while (true) {
             try {
-                System.out.println("Please Choose: [Number] ");
+                System.out.println("Please Choose: [Number] or Press [0] To go Back ");
                 userInt = Integer.parseInt(input.nextLine());
                 break;
             } catch (Exception e) {
@@ -60,9 +55,8 @@ public class Program implements Serializable {
 
 
     private void logInMenu() {
-        boolean continueToRun = true;
 
-        while (continueToRun) {
+        while (true) {
             System.out.println("Welcome To MannesLibrary");
             System.out.println("---------------------------");
             System.out.println("Please Choose a Option");
@@ -86,7 +80,6 @@ public class Program implements Serializable {
                 case "3":
                     break;
                 case "0":
-                    continueToRun = false;
                     System.exit(0);
                     break;
                 default:
@@ -123,7 +116,7 @@ public class Program implements Serializable {
         }
         int userInput = userInput();
         if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
-            System.out.println("Please Choose a Valid number");
+            System.out.println("Going Back.....[Enter]");
         } else {
             libraryBooks.getBooks().get(userInput - 1).setAvailable(false);
             currentUser.loanBook(libraryBooks.getBooks().get(userInput - 1));
@@ -132,19 +125,28 @@ public class Program implements Serializable {
     }
 
     private void returnBook() {
-        for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
-            System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
-        }
-        int userInput = userInput();
-        if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
-            System.out.println("Please Choose a Valid number");
+        if (currentUser.getLoanedBooks().getBooks().isEmpty()) {
+            System.out.println("You have no books to return");
         } else {
-            // Vi använder userinput som index för att sedan hämta boken och för att jämföra den.
-            // vi får en ny index som stämmer överens med Library
-            int index = libraryBooks.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-            libraryBooks.getBooks().get(index).setAvailable(true);
-            currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-            System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
+            for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
+                System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
+            }
+            int userInput = userInput();
+            if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
+                System.out.println("Going Back.....[Enter]");
+            } else {
+                // Vi använder userinput som index för att sedan hämta boken och för att jämföra den.
+                // vi får en ny index som stämmer överens med Library
+                try {
+                int index = libraryBooks.getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                libraryBooks.getBooks().get(index).setAvailable(true);
+                currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getLocalizedMessage());
+                }
+            }
         }
     }
 
@@ -154,7 +156,7 @@ public class Program implements Serializable {
         }
         int userInput = userInput();
         if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
-            System.out.println("Please Choose a Valid number");
+            System.out.println("Going Back.....[Enter]");
         } else {
             libraryBooks.showDescriptionOfBook(libraryBooks.getBooks().get(userInput - 1));
         }
@@ -163,11 +165,10 @@ public class Program implements Serializable {
 
     private void showMemberMenu() {
 
-        boolean continueToRun = true;
 
         System.out.println("Hello " + currentUser.getName() + "!");
         System.out.println("---------------------------");
-        while (continueToRun) {
+        while (true) {
             System.out.println("Press [1] Return Loaned Book");
             System.out.println("Press [2] Show All Available Books");
             System.out.println("Press [3] Show All Books and Description");
@@ -205,7 +206,6 @@ public class Program implements Serializable {
                     input.nextLine();
                     break;
                 case "0":
-                    continueToRun = false;
                     exitAndSave();
                     System.exit(0);
                     break;
@@ -247,7 +247,7 @@ public class Program implements Serializable {
         description = input.nextLine();
         libraryBooks.addBook(new Book(title, author, description, true));
         System.out.println("You have added " + libraryBooks.getBooks().get(libraryBooks.getBooks().size() - 1).getInfo());
-
+        input.nextLine();
     }
 
     private void removeBookFromLibrary() {
@@ -257,7 +257,7 @@ public class Program implements Serializable {
         System.out.println("Which Book do you want to DELETE ?");
         int userInput = userInput();
         if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
-            System.out.println("Please Choose a Valid number");
+            System.out.println("Going Back.....[Enter]");
             input.nextLine();
         } else {
             Book book = libraryBooks.getBooks().get(userInput - 1);
@@ -269,9 +269,8 @@ public class Program implements Serializable {
 
     private void showAdminMenu() {
 
-        boolean continueToRun = true;
 
-        while (continueToRun) {
+        while (true) {
             System.out.println("Hello, " + currentAdmin.getName());
             System.out.println("---------------------------");
             System.out.println("Press [1] Show Borrowed Books");
@@ -303,12 +302,12 @@ public class Program implements Serializable {
                     break;
                 case "5":
                     members.searchForMember();
+                    input.nextLine();
                     break;
                 case "6":
 
                     break;
                 case "0":
-                    continueToRun = false;
                     exitAndSave();
                     System.exit(0);
                     break;
@@ -320,7 +319,7 @@ public class Program implements Serializable {
         }
     }
 
-    private void createBooks(){
+    private void createBooks() {
         libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
         libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
         libraryBooks.addBook(new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "After murdering Harry's parents, James and Lily Potter, evil Lord Voldemort puts a killing curse on Harry, then just a baby. The curse inexplicably reverses, defeating Voldemort and searing a lightning-bolt scar in the middle of the infant's forehead.", true));
@@ -328,7 +327,7 @@ public class Program implements Serializable {
         FileUtility.saveObject("library_Books.ser", libraryBooks);
     }
 
-    private void createMembers(){
+    private void createMembers() {
         members.getMembers().add(new LibraryMember("Kalle", "Kalle123", "Abc123"));
         members.getMembers().add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
 
