@@ -9,12 +9,7 @@ public class libraryMemberList implements Serializable {
     // Lista på Användare i biblioteket
     private List<LibraryMember> members  = new ArrayList<>();
 
-
-    libraryMemberList(){
-       // addMembers();
-    }
     public void addMembers(LibraryMember member) {
-     //   members.add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
         members.add(member);
     }
 

@@ -44,16 +44,15 @@ public class Program implements Serializable {
         userName = input.nextLine();
         System.out.println("Please Enter a Password ");
         passWord = input.nextLine();
-        members.addMembers(new LibraryMember(name,userName,passWord));
+        members.addMembers(new LibraryMember(name, userName, passWord));
+        FileUtility.saveObject("members.ser", members);
         System.out.println("Welcome " + members.getMembers().get(members.getMembers().size() - 1).getName());
         System.out.println("Your Username: " + members.getMembers().get(members.getMembers().size() - 1).getUserName());
         System.out.println("Your Password: " + members.getMembers().get(members.getMembers().size() - 1).getPassword());
-        FileUtility.saveObject("members.ser", members);
         System.out.println("Press Enter to Continue....");
         input.nextLine();
         logInMenu();
     }
-
 
 
     private void logInMenu() {
@@ -134,16 +133,16 @@ public class Program implements Serializable {
             for (int i = 0; i < currentUser.getLoanedBooks().getBooks().size(); i++) {
                 System.out.println("[" + (i + 1) + "]. " + currentUser.getLoanedBooks().getBooks().get(i).getInfo());
             }
-                int userInput = userInput();
-                if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
-                    System.out.println("Going Back.....[Enter]");
-                } else {
-                    //söker index av användarens lånade böcker
-                    int index = currentUser.getLoanedBooks().getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-                    libraryBooks.getBooks().get(index).setAvailable(true);
-                    currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
-                    System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
-                }
+            int userInput = userInput();
+            if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
+                System.out.println("Going Back.....[Enter]");
+            } else {
+                //söker index av användarens lånade böcker
+                int index = currentUser.getLoanedBooks().getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                libraryBooks.getBooks().get(index).setAvailable(true);
+                currentUser.returnBook(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
+                System.out.println("Returned " + libraryBooks.getBooks().get(index).getInfo());
+            }
         }
     }
 
@@ -313,7 +312,7 @@ public class Program implements Serializable {
     }
 
 
-    private void loadProgram(){
+    private void loadProgram() {
         if (new File("library_Books.ser").isFile()) {
             System.out.println("Load library");
             libraryBooks = (BookList) FileUtility.loadObject("library_Books.ser");
@@ -334,6 +333,7 @@ public class Program implements Serializable {
         }
 
     }
+
     private void createBooks() {
         libraryBooks.addBook(new Book("Fellowship of the Ring ", "J R R Tolkien", "Continuing the story begun in The Hobbit, this is the first part of Tolkien's epic masterpiece, The Lord of the Rings, featuring the definitive text and a detailed map of Middle-earth.Sauron, the Dark Lord, has gathered to him all the Rings of Power", true));
         libraryBooks.addBook(new Book("A Game of Thrones", "George R R  Martin", "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King's Landing. There Eddard Stark of Winterfell rules in Robert's name.", true));
@@ -343,8 +343,9 @@ public class Program implements Serializable {
     }
 
     private void createMembers() {
-        members.getMembers().add(new LibraryMember("Kalle", "Kalle123", "Abc123"));
-        members.getMembers().add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
+        members.addMembers(new LibraryMember("Kalle", "Kalle123", "Abc123"));
+        members.addMembers(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
+
 
         FileUtility.saveObject("members.ser", members);
     }
