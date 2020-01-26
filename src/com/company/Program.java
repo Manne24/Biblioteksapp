@@ -85,7 +85,8 @@ public class Program implements Serializable {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Please enter a Number Between 1-3 [Enter]");
+                    System.out.println("Please enter a Number Between 1-3");
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
             }
@@ -93,21 +94,20 @@ public class Program implements Serializable {
     }
 
     private void memberLogIn() {
-        while (true) {
-            System.out.println("Please Enter your Username: ");
-            String username = input.nextLine();
-            for (LibraryMember member : members.getMembers()) {
-                if (username.equals(member.getUserName())) {
-                    System.out.println("Please Enter your Password: ");
-                    String password = input.nextLine();
-                    if (password.equals(member.getPassword())) {
-                        currentUser = member;
-                        showMemberMenu();
-                        break;
-                    }
-                }
+        System.out.println("Please Enter Your Username: ");
+        String username = input.nextLine();
+        System.out.println("Please Enter Your Password:");
+        String password = input.nextLine();
+        for (LibraryMember member : members.getMembers()) {
+            if (username.equals(member.getUserName()) && password.equals(member.getPassword())) {
+                currentUser = member;
+                showMemberMenu();
+                break;
             }
         }
+        System.out.println("Incorrect User or Password");
+        System.out.println("Press Enter to Continue....");
+        input.nextLine();
     }
 
     private void loanedBook() {
@@ -118,7 +118,7 @@ public class Program implements Serializable {
         }
         int userInput = userInput();
         if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
-            System.out.println("Going Back.....[Enter]");
+            System.out.println("Press Enter to Continue....");
         } else {
             libraryBooks.getBooks().get(userInput - 1).setAvailable(false);
             currentUser.loanBook(libraryBooks.getBooks().get(userInput - 1));
@@ -135,7 +135,7 @@ public class Program implements Serializable {
             }
             int userInput = userInput();
             if (userInput < 1 || userInput > currentUser.getLoanedBooks().getBooks().size()) {
-                System.out.println("Going Back.....[Enter]");
+                System.out.println("Press Enter to Continue....");;
             } else {
                 //söker index av användarens lånade böcker
                 int index = currentUser.getLoanedBooks().getBooks().indexOf(currentUser.getLoanedBooks().getBooks().get(userInput - 1));
@@ -152,7 +152,7 @@ public class Program implements Serializable {
         }
         int userInput = userInput();
         if (userInput < 1 || userInput > libraryBooks.getBooks().size()) {
-            System.out.println("Going Back.....[Enter]");
+            System.out.println("Press Enter to Continue....");
         } else {
             libraryBooks.showDescriptionOfBook(libraryBooks.getBooks().get(userInput - 1));
         }
@@ -180,14 +180,17 @@ public class Program implements Serializable {
             switch (userChoice) {
                 case "1":
                     returnBook();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "2":
                     libraryBooks.showAvailableBooks();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "3":
                     showDescriptionOfBook();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "4":
@@ -195,10 +198,12 @@ public class Program implements Serializable {
                     break;
                 case "5":
                     loanedBook();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "6":
                     currentUser.showBorrowedBook();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "0":
@@ -207,6 +212,7 @@ public class Program implements Serializable {
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
             }
@@ -214,21 +220,20 @@ public class Program implements Serializable {
     }
 
     private void adminLogIn() {
-        while (true) {
-            System.out.println("Please Enter your Username: ");
-            String username = input.nextLine();
-            for (Librarian librarian : librarians.getLibrarians()) {
-                if (username.equals(librarian.getUserName())) {
-                    System.out.println("Please Enter your Password: ");
-                    String password = input.nextLine();
-                    if (password.equals(librarian.getPassword())) {
-                        currentAdmin = librarian;
-                        showAdminMenu();
-                        break;
-                    }
-                }
+        System.out.println("Please Enter Your Username: ");
+        String username = input.nextLine();
+        System.out.println("Please Enter Your Password:");
+        String password = input.nextLine();
+        for (Librarian librarian : librarians.getLibrarians()) {
+            if (username.equals(librarian.getUserName()) && password.equals(librarian.getPassword())) {
+                currentAdmin = librarian;
+                showAdminMenu();
+                break;
             }
         }
+        System.out.println("Incorrect User or Password");
+        System.out.println("Press Enter to Continue....");
+        input.nextLine();
     }
 
     private void addBookToLibrary() {
@@ -243,6 +248,7 @@ public class Program implements Serializable {
         description = input.nextLine();
         libraryBooks.addBook(new Book(title, author, description, true));
         System.out.println("You have added " + libraryBooks.getBooks().get(libraryBooks.getBooks().size() - 1).getInfo());
+        System.out.println("Press Enter to Continue....");
         input.nextLine();
     }
 
@@ -259,6 +265,7 @@ public class Program implements Serializable {
             Book book = libraryBooks.getBooks().get(userInput - 1);
             libraryBooks.removeBook(book);
             System.out.println("You have deleted " + book.getInfo());
+            System.out.println("Press Enter to Continue....");
             input.nextLine();
         }
     }
@@ -283,6 +290,7 @@ public class Program implements Serializable {
             switch (userChoice) {
                 case "1":
                     libraryBooks.showBorrowedBooks();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "2":
@@ -293,10 +301,12 @@ public class Program implements Serializable {
                     break;
                 case "4":
                     members.showMembers();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "5":
                     members.searchForMember();
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
                 case "0":
@@ -305,6 +315,7 @@ public class Program implements Serializable {
                     break;
                 default:
                     System.out.println("Please enter a Number Between 1-6");
+                    System.out.println("Press Enter to Continue....");
                     input.nextLine();
                     break;
             }

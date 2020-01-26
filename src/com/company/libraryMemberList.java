@@ -38,7 +38,6 @@ public class libraryMemberList implements Serializable {
 
         if (result.isEmpty()){
             System.out.println("The Member was not found");
-            input.nextLine();
         }else {
             System.out.println("Member was found: ");
             for (String member: result){

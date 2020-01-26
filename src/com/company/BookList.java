@@ -82,6 +82,7 @@ public class BookList implements Serializable {
             for (String author: result){
                 System.out.println(author);
             }
+            System.out.println("Press Enter to Continue....");
             input.nextLine();
         }
     }
@@ -103,6 +104,7 @@ public class BookList implements Serializable {
             for (String book: result){
                 System.out.println(book);
             }
+            System.out.println("Press Enter to Continue....");
             input.nextLine();
         }
     }
@@ -116,10 +118,13 @@ public class BookList implements Serializable {
     }
 
     public void showBorrowedBooks(){
+        System.out.println("Books That Are Borrowed");
+        System.out.println("----------------------");
         for (Book book: books) {
             if (!book.getAvailable()) {
                 System.out.println(book.getInfo());
             }
         }
+        System.out.println("----------------------");
     }
 }
