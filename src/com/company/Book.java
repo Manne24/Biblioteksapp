@@ -36,6 +36,6 @@ public class Book  implements Serializable {
     }
 
     public String getInfo() {
-        return "Book Author: " + getAuthor() + " \n" + "Book Title: " + getTitle() +  " " + getAvailable();
+        return "Author: " + getAuthor() + " \n" + "Title: " + getTitle();
     }
 }

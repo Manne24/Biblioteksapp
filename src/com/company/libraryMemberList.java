@@ -9,12 +9,7 @@ public class libraryMemberList implements Serializable {
     // Lista på Användare i biblioteket
     private List<LibraryMember> members  = new ArrayList<>();
 
-
-    libraryMemberList(){
-       // addMembers();
-    }
     public void addMembers(LibraryMember member) {
-     //   members.add(new LibraryMember("Emmanuel", "Emmanuel111", "em123"));
         members.add(member);
     }
 
@@ -43,7 +38,6 @@ public class libraryMemberList implements Serializable {
 
         if (result.isEmpty()){
             System.out.println("The Member was not found");
-            input.nextLine();
         }else {
             System.out.println("Member was found: ");
             for (String member: result){
